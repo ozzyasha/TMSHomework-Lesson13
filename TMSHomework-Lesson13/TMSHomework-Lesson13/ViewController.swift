@@ -10,10 +10,10 @@ import UIKit
 class ViewController: UIViewController {
 
     let data = [
-        Model(header: "ДЗ №1 - стандартные ячейки с индексом", row: ["Яблоко", "Банан", "Апельсин", "Груша", "Киви", "Дыня", "Абрикос", "Кокос", "Мандарин", "Лимон"]),
+        Model(header: "ДЗ №1 - стандартные ячейки с индексом", row: ["Элемент № 1", "Элемент № 2", "Элемент № 3", "Элемент № 4", "Элемент № 5", "Элемент № 6", "Элемент № 7", "Элемент № 8", "Элемент № 9", "Элемент № 10"]),
         Model(header: "ДЗ №2 - ячейки с двумя лейблами", row: ["Swift", "Objective-C", "Java", "Python", "C++", "C#", "Ruby", "Dart", "Kotlin", "Pascal"]),
-        Model(header: "ДЗ №3 - Секция 1", row: ["Яблоко", "Банан", "Апельсин", "Груша", "Киви", "Дыня", "Абрикос", "Кокос", "Мандарин", "Лимон"]),
-        Model(header: "ДЗ№3 - Секция 2", row: ["Swift", "Objective-C", "Java", "Python", "C++", "C#", "Ruby", "Dart", "Kotlin", "Pascal"])
+        Model(header: "ДЗ №3 - Секция 1", row: ["Элемент № 1", "Элемент № 2", "Элемент № 3", "Элемент № 4", "Элемент № 5", "Элемент № 6", "Элемент № 7", "Элемент № 8", "Элемент № 9", "Элемент № 10"]),
+        Model(header: "ДЗ №3 - Секция 2", row: ["Swift", "Objective-C", "Java", "Python", "C++", "C#", "Ruby", "Dart", "Kotlin", "Pascal"])
     ]
     
     override func viewDidLoad() {
@@ -30,7 +30,6 @@ class ViewController: UIViewController {
     }
     
 }
-
 
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -60,35 +59,19 @@ extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         var cell: UITableViewCell
+        cell = tableView.dequeueReusableCell(withIdentifier: "cell") ?? UITableViewCell(style: .value1, reuseIdentifier: "cell")
         
-        if data[indexPath.section].header == "ДЗ №3 - Секция 1" {
-            cell = tableView.dequeueReusableCell(withIdentifier: "cell") ?? UITableViewCell(style: .value1, reuseIdentifier: "cell")
-            
-            let textInRow: String = data[indexPath.section].row[indexPath.row]
-            let dataArray = data[indexPath.section].row
-            cell.textLabel?.text = String(dataArray!.firstIndex(of: textInRow)!)
-            cell.textLabel?.textColor = .black
-            cell.detailTextLabel?.text = data[indexPath.section].header
-            cell.detailTextLabel?.textColor = .systemBlue
-            
-            return cell
-        } else if data[indexPath.section].header == "ДЗ №3 - Секция 2" {
-            cell = tableView.dequeueReusableCell(withIdentifier: "cell") ?? UITableViewCell(style: .default, reuseIdentifier: "cell")
-            cell.textLabel?.text = data[indexPath.section].row[indexPath.row]
-            
-            return cell
-        } else if data[indexPath.section].header == "ДЗ №1 - стандартные ячейки с индексом" {
-            cell = tableView.dequeueReusableCell(withIdentifier: "cell") ?? UITableViewCell(style: .default, reuseIdentifier: "cell")
+        
+        if data[indexPath.section].header == "ДЗ №1 - стандартные ячейки с индексом" {
             
             cell.textLabel?.textColor = .black
             let textInRow: String = data[indexPath.section].row[indexPath.row]
             let dataArray = data[indexPath.section].row
+            
+            cell.textLabel?.textColor = .black
             cell.textLabel?.text = String(dataArray!.firstIndex(of: textInRow)!)
             
-            return cell
         } else if data[indexPath.section].header == "ДЗ №2 - ячейки с двумя лейблами"{
-            cell = tableView.dequeueReusableCell(withIdentifier: "cell") ?? UITableViewCell(style: .value1, reuseIdentifier: "cell")
-            
             
             let textInRow: String = data[indexPath.section].row[indexPath.row]
             let dataArray = data[indexPath.section].row
@@ -97,16 +80,28 @@ extension ViewController: UITableViewDataSource {
             cell.detailTextLabel?.textColor = .systemBlue
             cell.detailTextLabel?.text = String(dataArray!.firstIndex(of: textInRow)!)
             
-            return cell
-        } else {
+        } else if data[indexPath.section].header == "ДЗ №3 - Секция 1" {
+            
+            let textInRow: String = data[indexPath.section].row[indexPath.row]
+            let dataArray = data[indexPath.section].row
+            
+            cell.textLabel?.textColor = .black
+            cell.textLabel?.text = String(dataArray!.firstIndex(of: textInRow)!)
+            cell.detailTextLabel?.textColor = .systemBlue
+            cell.detailTextLabel?.text = data[indexPath.section].header
+            
+        } else if data[indexPath.section].header == "ДЗ №3 - Секция 2" {
+            
             cell = tableView.dequeueReusableCell(withIdentifier: "cell") ?? UITableViewCell(style: .default, reuseIdentifier: "cell")
-            return cell
+            cell.textLabel?.textColor = .black
+            cell.textLabel?.text = data[indexPath.section].row[indexPath.row]
         }
         
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Выбран элемент: \(data[indexPath.section].row[indexPath.row])")
+        print("Выбран элемент: \(data[indexPath.section].row[indexPath.row]) , из секции: \(data[indexPath.section].header!)")
     }
     
 }
